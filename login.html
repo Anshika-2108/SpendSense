@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>SpendSense Login</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #f6d5f7, #d8e8ff, #fff1c1);
+        }
+
+        .login-card {
+            width: 90%;
+            max-width: 420px;
+            padding: 40px 30px;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 25px;
+            text-align: center;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.12);
+        }
+
+        .logo {
+            font-size: 50px;
+            margin-bottom: 10px;
+        }
+
+        h1 {
+            margin: 0;
+            color: #6c4ab6;
+        }
+
+        p {
+            color: #666;
+            margin-bottom: 25px;
+        }
+
+        input {
+            width: 100%;
+            padding: 14px;
+            border: 2px solid #e4d9ff;
+            border-radius: 12px;
+            font-size: 16px;
+            outline: none;
+            margin-bottom: 15px;
+        }
+
+        input:focus {
+            border-color: #9b72cf;
+        }
+
+        button {
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: 12px;
+            background: linear-gradient(135deg, #8e6ac8, #d16ba5);
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        button:hover {
+            transform: translateY(-1px);
+        }
+
+        .small-text {
+            font-size: 13px;
+            margin-top: 20px;
+            color: #888;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="login-card">
+
+        <div class="logo">💰</div>
+
+        <h1>Welcome to SpendSense</h1>
+
+        <p>Enter your email and we'll send you a 6-digit verification code ✨</p>
+
+        <input
+            type="email"
+            id="email"
+            placeholder="Enter your email"
+            required
+        >
+
+        <button id="sendOtpButton">
+            Send OTP ✨
+        </button>
+
+        <div class="small-text">
+            Secure login powered by Supabase 🔐
+        </div>
+
+    </div>
+
+    <!-- Supabase -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <!-- Your Supabase configuration -->
+    <script src="supabase.js"></script>
+
+    <script>
+        const emailInput = document.getElementById("email");
+        const sendOtpButton = document.getElementById("sendOtpButton");
+
+        sendOtpButton.addEventListener("click", async () => {
+
+            const email = emailInput.value.trim();
+
+            if (!email) {
+                alert("Please enter your email address.");
+                return;
+            }
+
+            sendOtpButton.disabled = true;
+            sendOtpButton.textContent = "Sending OTP...";
+
+            const { error } = await supabaseClient.auth.signInWithOtp({
+                email: email
+            });
+
+            if (error) {
+                alert("Could not send OTP.\n\n" + error.message);
+
+                sendOtpButton.disabled = false;
+                sendOtpButton.textContent = "Send OTP ✨";
+
+                return;
+            }
+
+            sessionStorage.setItem("loginEmail", email);
+
+            alert("OTP sent successfully! Check your email 📩");
+
+            window.location.href = "verify.html";
+        });
+    </script>
+
+</body>
+</html>
