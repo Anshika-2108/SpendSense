@@ -1,610 +1,670 @@
+/* =====================================
+   SpendSense - Colorful Dashboard
+===================================== */
+
 * {
     box-sizing: border-box;
-    margin: 0;
-    padding: 0;
 }
-
 
 body {
+    margin: 0;
     font-family: Arial, sans-serif;
-    background: linear-gradient(
-        135deg,
-        #fdf4ff,
-        #f5f3ff,
-        #eefcf7
-    );
-    color: #333;
+
+    background:
+        linear-gradient(
+            135deg,
+            #ffe1ed,
+            #e3dcff,
+            #d5f4ff,
+            #fff2c6
+        );
+
     min-height: 100vh;
+    color: #4d4260;
 }
 
 
-/* =========================
-   Main Container
-========================= */
+/* =====================================
+   MAIN CONTAINER
+===================================== */
 
 .container {
-    width: 90%;
+    width: 92%;
     max-width: 1100px;
     margin: auto;
 }
 
 
-/* =========================
-   Header
-========================= */
+/* =====================================
+   HEADER
+===================================== */
 
 header {
-    background: linear-gradient(
-        135deg,
-        #8b5cf6,
-        #ec4899
-    );
-    color: white;
-    padding: 35px 0;
-    box-shadow:
-        0 8px 25px rgba(139, 92, 246, 0.25);
+    padding: 30px 0;
 }
 
+.header-content {
+    background: rgba(255, 255, 255, 0.88);
+
+    border-radius: 28px;
+
+    padding: 25px 30px;
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    box-shadow:
+        0 12px 35px rgba(90, 60, 120, 0.12);
+}
 
 header h1 {
-    font-size: 36px;
-    margin-bottom: 8px;
-}
+    margin: 0;
 
+    font-size: 38px;
+
+    background:
+        linear-gradient(
+            90deg,
+            #7048c8,
+            #d45b9d,
+            #ef8d60
+        );
+
+    -webkit-background-clip: text;
+
+    -webkit-text-fill-color: transparent;
+}
 
 header p {
-    font-size: 16px;
-    opacity: 0.9;
-}
+    margin: 7px 0 0;
 
-
-/* =========================
-   Welcome
-========================= */
-
-.welcome {
-    margin: 30px 0;
-    padding: 30px;
-    background: white;
-    border-radius: 22px;
-    box-shadow:
-        0 8px 25px rgba(0, 0, 0, 0.06);
-}
-
-
-.welcome h2 {
-    margin-bottom: 10px;
-    color: #6d28d9;
-}
-
-
-.welcome p {
     color: #777;
-    line-height: 1.6;
+
+    font-size: 15px;
 }
 
 
-/* =========================
-   Summary Cards
-========================= */
+/* =====================================
+   HOME BUTTON
+===================================== */
 
-.summary-cards {
+.home-button {
+    border: none;
+
+    padding: 12px 20px;
+
+    border-radius: 14px;
+
+    background: #eadfff;
+
+    color: #6848a5;
+
+    font-weight: bold;
+
+    cursor: pointer;
+
+    transition: 0.2s;
+}
+
+.home-button:hover {
+    transform: translateY(-2px);
+
+    background: #dbcaff;
+}
+
+
+/* =====================================
+   SUMMARY CARDS
+===================================== */
+
+.summary-grid {
     display: grid;
+
     grid-template-columns:
         repeat(3, 1fr);
+
     gap: 20px;
+
     margin-bottom: 25px;
 }
-
 
 .summary-card {
     padding: 25px;
-    border-radius: 22px;
-    background: white;
-    box-shadow:
-        0 8px 25px rgba(0, 0, 0, 0.06);
-    transition:
-        transform 0.2s ease,
-        box-shadow 0.2s ease;
-}
 
+    border-radius: 25px;
+
+    min-height: 160px;
+
+    box-shadow:
+        0 10px 30px rgba(70, 50, 100, 0.1);
+
+    transition: 0.25s;
+}
 
 .summary-card:hover {
     transform: translateY(-5px);
-    box-shadow:
-        0 12px 30px rgba(0, 0, 0, 0.1);
 }
 
-
-.summary-card:nth-child(1) {
-    background: #f3e8ff;
+.balance-card {
+    background:
+        linear-gradient(
+            135deg,
+            #e4d9ff,
+            #f3eaff
+        );
 }
 
-
-.summary-card:nth-child(2) {
-    background: #dcfce7;
+.income-card {
+    background:
+        linear-gradient(
+            135deg,
+            #d7f8e7,
+            #e7fff2
+        );
 }
 
-
-.summary-card:nth-child(3) {
-    background: #ffe4e6;
+.expense-card {
+    background:
+        linear-gradient(
+            135deg,
+            #ffdce8,
+            #fff0f5
+        );
 }
 
+.card-icon {
+    font-size: 35px;
+}
 
 .summary-card h3 {
-    font-size: 15px;
-    margin-bottom: 12px;
-    color: #555;
+    margin: 10px 0 5px;
+
+    color: #6c5a7d;
 }
 
+.summary-card h2 {
+    margin: 0;
 
-.summary-card p {
     font-size: 28px;
-    font-weight: bold;
+
+    color: #49365f;
 }
 
 
-/* =========================
-   General Cards
-========================= */
+/* =====================================
+   DASHBOARD CARDS
+===================================== */
 
-.card {
-    background: white;
-    padding: 30px;
+.dashboard-card {
+    background:
+        rgba(255, 255, 255, 0.9);
+
+    border-radius: 28px;
+
+    padding: 28px;
+
     margin-bottom: 25px;
-    border-radius: 22px;
+
     box-shadow:
-        0 8px 25px rgba(0, 0, 0, 0.06);
+        0 12px 35px rgba(70, 50, 100, 0.1);
+}
+
+.dashboard-card h2 {
+    margin-top: 0;
+
+    color: #60447d;
 }
 
 
-.card h2 {
-    color: #6d28d9;
-    margin-bottom: 10px;
+/* =====================================
+   FORM
+===================================== */
+
+#transactionForm {
+    display: grid;
+
+    grid-template-columns:
+        repeat(2, 1fr);
+
+    gap: 18px;
 }
 
-
-.card > p {
-    color: #777;
-    margin-bottom: 20px;
-    line-height: 1.5;
-}
-
-
-/* =========================
-   Forms
-========================= */
-
-form {
+.form-group {
     display: flex;
+
     flex-direction: column;
+
+    gap: 7px;
 }
 
-
-label {
+.form-group label {
     font-weight: bold;
-    margin-top: 15px;
-    margin-bottom: 7px;
-    color: #444;
-}
 
+    font-size: 14px;
+
+    color: #665472;
+}
 
 input,
 select {
     width: 100%;
-    padding: 13px 15px;
-    border: 2px solid #eee;
-    border-radius: 12px;
-    font-size: 15px;
-    background: #fafafa;
-    outline: none;
-    transition:
-        border 0.2s ease,
-        box-shadow 0.2s ease;
-}
 
+    padding: 13px 15px;
+
+    border: 2px solid #eee5f7;
+
+    border-radius: 13px;
+
+    background: #fff;
+
+    color: #51455e;
+
+    outline: none;
+
+    font-size: 14px;
+}
 
 input:focus,
 select:focus {
-    border-color: #a78bfa;
+    border-color: #b99be8;
+
     box-shadow:
-        0 0 0 4px #ede9fe;
-    background: white;
+        0 0 0 3px #f0e8ff;
 }
 
 
-/* =========================
-   Buttons
-========================= */
+/* =====================================
+   BUTTONS
+===================================== */
 
-button {
+.primary-button {
     border: none;
-    border-radius: 12px;
-    padding: 13px 20px;
-    margin-top: 18px;
-    background: linear-gradient(
-        135deg,
-        #8b5cf6,
-        #ec4899
-    );
+
+    padding: 14px 20px;
+
+    border-radius: 14px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #7956c7,
+            #d05aa4
+        );
+
     color: white;
-    font-size: 15px;
+
     font-weight: bold;
+
     cursor: pointer;
-    transition:
-        transform 0.2s ease,
-        box-shadow 0.2s ease;
+
+    transition: 0.2s;
+
+    font-size: 15px;
 }
 
-
-button:hover {
+.primary-button:hover {
     transform: translateY(-2px);
+
     box-shadow:
-        0 7px 18px rgba(139, 92, 246, 0.25);
+        0 8px 20px rgba(120, 80, 170, 0.25);
+}
+
+.secondary-button {
+    border: none;
+
+    padding: 13px 20px;
+
+    border-radius: 13px;
+
+    background: #ffe0a8;
+
+    color: #795b27;
+
+    font-weight: bold;
+
+    cursor: pointer;
+}
+
+.secondary-button:hover {
+    background: #ffd47d;
 }
 
 
-button:active {
-    transform: translateY(0);
-}
+/* =====================================
+   TRANSACTIONS
+===================================== */
 
-
-/* =========================
-   Transactions
-========================= */
-
-.transaction-controls {
+.section-heading {
     display: flex;
-    gap: 12px;
-    margin: 20px 0;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    gap: 15px;
+
+    margin-bottom: 20px;
 }
 
-
-.transaction-controls input {
-    flex: 1;
+.section-heading input {
+    max-width: 220px;
 }
-
-
-.transaction-controls select {
-    width: 200px;
-}
-
 
 .transaction {
     display: flex;
+
     justify-content: space-between;
+
     align-items: center;
-    gap: 20px;
-    padding: 18px;
+
+    padding: 17px;
+
     margin-bottom: 12px;
-    border-radius: 15px;
-    background: #fafafa;
-    border: 1px solid #eee;
-    transition:
-        transform 0.2s ease;
+
+    border-radius: 17px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #faf7ff,
+            #fffafd
+        );
+
+    border: 1px solid #eee7f7;
 }
-
-
-.transaction:hover {
-    transform: translateX(4px);
-}
-
 
 .transaction-info h3 {
-    margin-bottom: 5px;
+    margin: 0 0 5px;
+
+    color: #564365;
 }
 
-
 .transaction-info p {
-    color: #888;
+    margin: 0;
+
+    color: #999;
+
     font-size: 13px;
 }
 
-
 .income {
-    color: #16a34a;
+    color: #2c9b68;
 }
-
 
 .expense {
-    color: #e11d48;
+    color: #d55c78;
 }
 
-
 .delete-btn {
-    background: #fee2e2;
-    color: #dc2626;
-    padding: 7px 12px;
-    margin-top: 8px;
+    margin-top: 7px;
+
+    border: none;
+
+    background: #ffe0e8;
+
+    color: #c44e6b;
+
+    padding: 5px 10px;
+
+    border-radius: 8px;
+
+    cursor: pointer;
+
     font-size: 12px;
 }
 
-
 .delete-btn:hover {
-    background: #fecaca;
-    box-shadow: none;
+    background: #ffcbd8;
 }
-
-
-/* =========================
-   Empty Message
-========================= */
 
 .empty-message {
     text-align: center;
-    padding: 30px;
+
     color: #999;
+
+    padding: 25px;
 }
 
 
-/* =========================
-   Budget
-========================= */
+/* =====================================
+   BUDGET
+===================================== */
 
-.budget-card {
+.budget-input {
+    display: flex;
+
+    gap: 12px;
+
+    margin-bottom: 20px;
+}
+
+.budget-input input {
+    max-width: 300px;
+}
+
+.progress-container {
+    width: 100%;
+
+    height: 18px;
+
+    background: #eee9f5;
+
+    border-radius: 20px;
+
+    overflow: hidden;
+
+    margin-top: 15px;
+}
+
+.progress-bar {
+    height: 100%;
+
+    width: 0%;
+
     background:
         linear-gradient(
-            135deg,
-            #f5f3ff,
-            #fff1f2
+            90deg,
+            #7e61d2,
+            #d15ba5,
+            #ef9365
         );
+
+    border-radius: 20px;
+
+    transition: width 0.4s ease;
+}
+
+#budgetText {
+    color: #777;
+
+    margin-bottom: 0;
+
+    font-size: 14px;
 }
 
 
-.budget-summary {
+/* =====================================
+   AT A GLANCE
+===================================== */
+
+.glance-grid {
     display: grid;
+
     grid-template-columns:
         repeat(3, 1fr);
+
     gap: 15px;
-    margin-top: 25px;
 }
 
-
-.budget-summary div {
-    background: white;
-    padding: 18px;
-    border-radius: 15px;
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-}
-
-
-.budget-summary span {
-    color: #777;
-    font-size: 13px;
-}
-
-
-.budget-summary strong {
-    font-size: 20px;
-    color: #6d28d9;
-}
-
-
-.budget-progress-container {
-    height: 14px;
-    background: #e5e7eb;
-    border-radius: 20px;
-    margin-top: 25px;
-    overflow: hidden;
-}
-
-
-.budget-progress {
-    height: 100%;
-    width: 0%;
-    border-radius: 20px;
-    background: linear-gradient(
-        90deg,
-        #8b5cf6,
-        #ec4899
-    );
-    transition:
-        width 0.5s ease;
-}
-
-
-#budgetPercentage {
-    font-weight: bold;
-    color: #6d28d9;
-    margin-top: 10px;
-}
-
-
-#budgetMessage {
-    font-weight: bold;
-}
-
-
-/* =========================
-   Monthly Summary
-========================= */
-
-.monthly-summary-card {
-    background:
-        linear-gradient(
-            135deg,
-            #ecfeff,
-            #f5f3ff
-        );
-}
-
-
-.monthly-summary-grid {
-    display: grid;
-    grid-template-columns:
-        repeat(4, 1fr);
-    gap: 15px;
-    margin-top: 20px;
-}
-
-
-.monthly-summary-item {
-    background: white;
+.glance-box {
     padding: 20px;
-    border-radius: 16px;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
+
+    border-radius: 20px;
+
+    text-align: center;
 }
 
+.glance-box:nth-child(1) {
+    background: #e4f7ff;
+}
 
-.monthly-summary-item span {
-    font-size: 14px;
+.glance-box:nth-child(2) {
+    background: #ffe5ed;
+}
+
+.glance-box:nth-child(3) {
+    background: #eee6ff;
+}
+
+.glance-box span {
+    font-size: 30px;
+}
+
+.glance-box p {
     color: #777;
+
+    margin: 8px 0;
+}
+
+.glance-box strong {
+    font-size: 21px;
+
+    color: #59456b;
 }
 
 
-.monthly-summary-item strong {
-    font-size: 20px;
-    color: #6d28d9;
-}
-
-
-.monthly-insight {
-    margin-top: 20px;
-    padding: 18px;
-    background: #ede9fe;
-    border-radius: 15px;
-    line-height: 1.5;
-    color: #4c1d95;
-    font-weight: bold;
-}
-
-
-/* =========================
-   Savings Calculator
-========================= */
+/* =====================================
+   SAVINGS
+===================================== */
 
 .savings-card {
     background:
         linear-gradient(
             135deg,
-            #fff7ed,
-            #fdf2f8
+            #fff4d4,
+            #fff9ec
         );
 }
 
+.calculator-grid {
+    display: grid;
 
-.savings-description {
-    color: #777;
-    margin-bottom: 20px;
+    grid-template-columns:
+        1fr 1fr;
+
+    gap: 18px;
+
+    margin-bottom: 18px;
 }
-
 
 .savings-result {
     margin-top: 20px;
+
     padding: 18px;
-    background: #f6f5fb;
-    border-radius: 12px;
-    line-height: 1.6;
+
+    background: #f0e8ff;
+
+    border-radius: 15px;
+
+    color: #60447d;
+
     font-weight: bold;
-    color: #6d28d9;
+
+    line-height: 1.5;
 }
 
 
-/* =========================
-   Chart
-========================= */
+/* =====================================
+   CHART
+===================================== */
 
-.card canvas {
-    max-height: 400px;
-    margin-top: 20px;
+.chart-container {
+    max-width: 480px;
+
+    height: 350px;
+
+    margin: 20px auto;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
 }
 
 
-/* =========================
-   Mobile
-========================= */
+/* =====================================
+   FOOTER
+===================================== */
 
-@media (max-width: 800px) {
+footer {
+    text-align: center;
 
-    .summary-cards {
-        grid-template-columns:
-            1fr;
-    }
+    padding: 25px;
 
+    color: #806e8e;
 
-    .monthly-summary-grid {
-        grid-template-columns:
-            repeat(2, 1fr);
-    }
-
-
-    .budget-summary {
-        grid-template-columns:
-            1fr;
-    }
-
+    font-size: 13px;
 }
 
 
-@media (max-width: 600px) {
+/* =====================================
+   MOBILE
+===================================== */
 
-    .container {
-        width: 94%;
+@media (max-width: 700px) {
+
+    .header-content {
+        flex-direction: column;
+
+        text-align: center;
+
+        gap: 15px;
     }
-
-
-    header {
-        padding: 28px 0;
-    }
-
 
     header h1 {
-        font-size: 30px;
+        font-size: 32px;
     }
 
-
-    .card,
-    .welcome {
-        padding: 22px;
-        border-radius: 18px;
+    .summary-grid {
+        grid-template-columns: 1fr;
     }
 
+    #transactionForm {
+        grid-template-columns: 1fr;
+    }
 
-    .transaction-controls {
+    .glance-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .calculator-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .section-heading {
+        flex-direction: column;
+
+        align-items: stretch;
+    }
+
+    .section-heading input {
+        max-width: none;
+    }
+
+    .budget-input {
         flex-direction: column;
     }
 
-
-    .transaction-controls select {
-        width: 100%;
+    .budget-input input {
+        max-width: none;
     }
-
 
     .transaction {
-        align-items: flex-start;
+        gap: 10px;
     }
 
-
-    .monthly-summary-grid {
-        grid-template-columns:
-            1fr;
-    }
-
-
-    .summary-card p {
-        font-size: 25px;
-    }
-
-}
-.login-button {
-    margin-top: 15px;
-    padding: 10px 24px;
-    border: none;
-    border-radius: 20px;
-    background: linear-gradient(135deg, #8e6ac8, #d16ba5);
-    color: white;
-    font-size: 15px;
-    font-weight: bold;
-    cursor: pointer;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
-    transition: 0.3s;
-}
-
-.login-button:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 18px rgba(0, 0, 0, 0.2);
 }
