@@ -1,13 +1,21 @@
+// ========================================
+// SpendSense - Dashboard JavaScript
+// ========================================
+
+
+// Get saved transactions
 let transactions =
     JSON.parse(localStorage.getItem("transactions")) || [];
 
+
+// Get saved budget
 let monthlyBudget =
     Number(localStorage.getItem("monthlyBudget")) || 0;
 
 
-// ===============================
-// Get HTML Elements
-// ===============================
+// ========================================
+// HTML ELEMENTS
+// ========================================
 
 const form =
     document.getElementById("transactionForm");
@@ -22,293 +30,209 @@ const incomeElement =
     document.getElementById("income");
 
 const expenseElement =
-    document.getElementById("expense");
+    document.getElementById("expenses");
 
+const searchInput =
+    document.getElementById("search");
 
-// Budget elements
-
-const budgetAmountInput =
-    document.getElementById("budgetAmount");
+const budgetInput =
+    document.getElementById("budgetInput");
 
 const saveBudgetButton =
-    document.getElementById("saveBudgetButton");
-
-const budgetDisplay =
-    document.getElementById("budgetDisplay");
-
-const budgetSpent =
-    document.getElementById("budgetSpent");
-
-const budgetRemaining =
-    document.getElementById("budgetRemaining");
+    document.getElementById("saveBudget");
 
 const budgetProgress =
     document.getElementById("budgetProgress");
 
-const budgetPercentage =
-    document.getElementById("budgetPercentage");
+const budgetText =
+    document.getElementById("budgetText");
 
-const budgetMessage =
-    document.getElementById("budgetMessage");
+const savingsGoal =
+    document.getElementById("savingsGoal");
 
+const savingsMonths =
+    document.getElementById("savingsMonths");
 
-// Search and filter
+const calculateSavingsButton =
+    document.getElementById("calculateSavings");
 
-const searchInput =
-    document.getElementById("searchInput");
-
-const filterType =
-    document.getElementById("filterType");
-
-
-// Monthly summary
-
-const monthlyIncome =
-    document.getElementById("monthlyIncome");
-
-const monthlyExpense =
-    document.getElementById("monthlyExpense");
-
-const monthlySavings =
-    document.getElementById("monthlySavings");
-
-const topCategory =
-    document.getElementById("topCategory");
-
-const monthlyInsight =
-    document.getElementById("monthlyInsight");
+const savingsResult =
+    document.getElementById("savingsResult");
 
 
 // Chart
-
-let expenseChart;
-
-
-// ===============================
-// Set Today's Date
-// ===============================
-
-document.getElementById("date").value =
-    new Date().toISOString().split("T")[0];
+let expenseChart = null;
 
 
-// ===============================
-// Load Saved Budget
-// ===============================
+// ========================================
+// ADD TRANSACTION
+// ========================================
 
-if (monthlyBudget > 0) {
+form.addEventListener("submit", function(event) {
 
-    budgetAmountInput.value =
-        monthlyBudget;
+    event.preventDefault();
+
+
+    const description =
+        document.getElementById("description").value.trim();
+
+    const amount =
+        Number(document.getElementById("amount").value);
+
+    const type =
+        document.getElementById("type").value;
+
+    const category =
+        document.getElementById("category").value;
+
+
+    if (!description || amount <= 0) {
+
+        alert("Please enter a valid description and amount.");
+
+        return;
+    }
+
+
+    const transaction = {
+
+        id: Date.now(),
+
+        description: description,
+
+        amount: amount,
+
+        type: type,
+
+        category: category,
+
+        date: new Date().toISOString()
+
+    };
+
+
+    transactions.push(transaction);
+
+
+    saveTransactions();
+
+
+    form.reset();
+
+
+    updateDashboard();
+
+});
+
+
+// ========================================
+// SAVE TRANSACTIONS
+// ========================================
+
+function saveTransactions() {
+
+    localStorage.setItem(
+        "transactions",
+        JSON.stringify(transactions)
+    );
 
 }
 
 
-// ===============================
-// Save Budget
-// ===============================
+// ========================================
+// UPDATE DASHBOARD
+// ========================================
 
-saveBudgetButton.addEventListener(
-    "click",
-    function () {
-
-        const enteredBudget =
-            Number(budgetAmountInput.value);
-
-
-        if (!enteredBudget || enteredBudget <= 0) {
-
-            alert(
-                "Please enter a valid budget amount."
-            );
-
-            return;
-        }
-
-
-        monthlyBudget =
-            enteredBudget;
-
-
-        localStorage.setItem(
-            "monthlyBudget",
-            monthlyBudget
-        );
-
-
-        updateBudget();
-
-
-        alert(
-            "Budget saved successfully!"
-        );
-
-    }
-);
-
-
-// ===============================
-// Add Transaction
-// ===============================
-
-form.addEventListener(
-    "submit",
-    function (event) {
-
-        event.preventDefault();
-
-
-        const description =
-            document.getElementById(
-                "description"
-            ).value;
-
-
-        const amount =
-            Number(
-                document.getElementById(
-                    "amount"
-                ).value
-            );
-
-
-        const type =
-            document.getElementById(
-                "type"
-            ).value;
-
-
-        const category =
-            document.getElementById(
-                "category"
-            ).value;
-
-
-        const date =
-            document.getElementById(
-                "date"
-            ).value;
-
-
-        const transaction = {
-
-            id: Date.now(),
-
-            description:
-                description,
-
-            amount:
-                amount,
-
-            type:
-                type,
-
-            category:
-                category,
-
-            date:
-                date
-
-        };
-
-
-        transactions.push(
-            transaction
-        );
-
-
-        saveTransactions();
-
-
-        form.reset();
-
-
-        document.getElementById(
-            "date"
-        ).value =
-            new Date()
-                .toISOString()
-                .split("T")[0];
-
-
-        updateWebsite();
-
-    }
-);
-
-
-// ===============================
-// Update Website
-// ===============================
-
-function updateWebsite() {
+function updateDashboard() {
 
     let totalIncome = 0;
 
-    let totalExpense = 0;
+    let totalExpenses = 0;
 
 
-    transactions.forEach(
-        function (transaction) {
+    transactions.forEach(function(transaction) {
 
-            if (
-                transaction.type ===
-                "income"
-            ) {
+        if (transaction.type === "income") {
 
-                totalIncome +=
-                    transaction.amount;
-
-            } else {
-
-                totalExpense +=
-                    transaction.amount;
-
-            }
+            totalIncome += Number(transaction.amount);
 
         }
-    );
+
+        else {
+
+            totalExpenses += Number(transaction.amount);
+
+        }
+
+    });
 
 
     const balance =
-        totalIncome - totalExpense;
+        totalIncome - totalExpenses;
 
+
+    // Main cards
 
     incomeElement.textContent =
-        "₹" +
-        totalIncome.toLocaleString(
-            "en-IN"
-        );
+        "₹" + totalIncome.toLocaleString("en-IN");
 
 
     expenseElement.textContent =
-        "₹" +
-        totalExpense.toLocaleString(
-            "en-IN"
-        );
+        "₹" + totalExpenses.toLocaleString("en-IN");
 
 
     balanceElement.textContent =
-        "₹" +
-        balance.toLocaleString(
-            "en-IN"
-        );
+        "₹" + balance.toLocaleString("en-IN");
+
+
+    // At a glance
+
+    const glanceIncome =
+        document.getElementById("glanceIncome");
+
+    const glanceExpense =
+        document.getElementById("glanceExpense");
+
+    const glanceBalance =
+        document.getElementById("glanceBalance");
+
+
+    if (glanceIncome) {
+
+        glanceIncome.textContent =
+            "₹" + totalIncome.toLocaleString("en-IN");
+
+    }
+
+
+    if (glanceExpense) {
+
+        glanceExpense.textContent =
+            "₹" + totalExpenses.toLocaleString("en-IN");
+
+    }
+
+
+    if (glanceBalance) {
+
+        glanceBalance.textContent =
+            "₹" + balance.toLocaleString("en-IN");
+
+    }
 
 
     displayTransactions();
 
+    updateBudget(totalExpenses);
+
     updateChart();
-
-    updateBudget();
-
-    updateMonthlySummary();
 
 }
 
 
-// ===============================
-// Display Transactions
-// ===============================
+// ========================================
+// DISPLAY TRANSACTIONS
+// ========================================
 
 function displayTransactions() {
 
@@ -316,60 +240,30 @@ function displayTransactions() {
 
 
     const searchText =
-        searchInput.value
-            .toLowerCase()
-            .trim();
-
-
-    const selectedType =
-        filterType.value;
+        searchInput.value.toLowerCase().trim();
 
 
     const filteredTransactions =
-        transactions.filter(
-            function (transaction) {
+        transactions.filter(function(transaction) {
+
+            return (
+
+                transaction.description
+                    .toLowerCase()
+                    .includes(searchText)
+
+                ||
+
+                transaction.category
+                    .toLowerCase()
+                    .includes(searchText)
+
+            );
+
+        });
 
 
-                const matchesSearch =
-
-                    transaction.description
-                        .toLowerCase()
-                        .includes(
-                            searchText
-                        )
-
-                    ||
-
-                    transaction.category
-                        .toLowerCase()
-                        .includes(
-                            searchText
-                        );
-
-
-                const matchesType =
-
-                    selectedType ===
-                    "all"
-
-                    ||
-
-                    transaction.type ===
-                    selectedType;
-
-
-                return (
-                    matchesSearch &&
-                    matchesType
-                );
-
-            }
-        );
-
-
-    if (
-        filteredTransactions.length === 0
-    ) {
+    if (filteredTransactions.length === 0) {
 
         transactionList.innerHTML =
 
@@ -378,54 +272,50 @@ function displayTransactions() {
             (
                 transactions.length === 0
 
-                ? "No transactions yet."
+                    ? "No transactions yet."
 
-                : "No matching transactions found."
+                    : "No matching transactions found."
 
-            ) +
+            )
+
+            +
 
             "</p>";
 
         return;
+
     }
 
 
-    filteredTransactions.forEach(
-        function (transaction) {
+    filteredTransactions
+        .slice()
+        .reverse()
+        .forEach(function(transaction) {
 
 
-            const transactionElement =
-                document.createElement(
-                    "div"
-                );
+            const item =
+                document.createElement("div");
 
 
-            transactionElement.className =
+            item.className =
                 "transaction";
 
 
             const sign =
-                transaction.type ===
-                "income"
+                transaction.type === "income"
                     ? "+"
                     : "-";
 
 
-            let formattedDate =
-                "No date";
+            const colorClass =
+                transaction.type === "income"
+                    ? "income"
+                    : "expense";
 
 
-            if (transaction.date) {
-
-                const dateObject =
-                    new Date(
-                        transaction.date +
-                        "T00:00:00"
-                    );
-
-
-                formattedDate =
-                    dateObject.toLocaleDateString(
+            const date =
+                new Date(transaction.date)
+                    .toLocaleDateString(
                         "en-IN",
                         {
                             day: "numeric",
@@ -434,10 +324,8 @@ function displayTransactions() {
                         }
                     );
 
-            }
 
-
-            transactionElement.innerHTML = `
+            item.innerHTML = `
 
                 <div class="transaction-info">
 
@@ -448,7 +336,7 @@ function displayTransactions() {
                     <p>
                         ${transaction.category}
                         •
-                        ${formattedDate}
+                        ${date}
                     </p>
 
                 </div>
@@ -456,25 +344,21 @@ function displayTransactions() {
 
                 <div>
 
-                    <strong
-                        class="${transaction.type}"
-                    >
+                    <strong class="${colorClass}">
 
-                        ${sign}₹${transaction.amount.toLocaleString("en-IN")}
+                        ${sign}₹${Number(
+                            transaction.amount
+                        ).toLocaleString("en-IN")}
 
                     </strong>
 
-
                     <br>
-
 
                     <button
                         class="delete-btn"
                         onclick="deleteTransaction(${transaction.id})"
                     >
-
                         Delete
-
                     </button>
 
                 </div>
@@ -482,104 +366,255 @@ function displayTransactions() {
             `;
 
 
-            transactionList.appendChild(
-                transactionElement
-            );
+            transactionList.appendChild(item);
 
-        }
-    );
+        });
 
 }
 
 
-// ===============================
-// Search
-// ===============================
+// ========================================
+// SEARCH
+// ========================================
 
 searchInput.addEventListener(
     "input",
-    function () {
+    displayTransactions
+);
 
-        displayTransactions();
+
+// ========================================
+// DELETE TRANSACTION
+// ========================================
+
+function deleteTransaction(id) {
+
+    transactions =
+        transactions.filter(function(transaction) {
+
+            return transaction.id !== id;
+
+        });
+
+
+    saveTransactions();
+
+    updateDashboard();
+
+}
+
+
+// ========================================
+// BUDGET
+// ========================================
+
+if (monthlyBudget > 0) {
+
+    budgetInput.value =
+        monthlyBudget;
+
+}
+
+
+saveBudgetButton.addEventListener(
+    "click",
+    function() {
+
+
+        const amount =
+            Number(budgetInput.value);
+
+
+        if (amount <= 0) {
+
+            alert("Please enter a valid budget.");
+
+            return;
+
+        }
+
+
+        monthlyBudget =
+            amount;
+
+
+        localStorage.setItem(
+            "monthlyBudget",
+            monthlyBudget
+        );
+
+
+        updateDashboard();
+
+
+        alert("Budget saved successfully! 🎯");
 
     }
 );
 
 
-// ===============================
-// Filter
-// ===============================
+// ========================================
+// UPDATE BUDGET
+// ========================================
 
-filterType.addEventListener(
-    "change",
-    function () {
+function updateBudget(totalExpenses) {
 
-        displayTransactions();
+
+    if (monthlyBudget <= 0) {
+
+        budgetProgress.style.width = "0%";
+
+        budgetText.textContent =
+            "Set a monthly budget to start tracking.";
+
+        return;
+
+    }
+
+
+    const percentage =
+        (totalExpenses / monthlyBudget) * 100;
+
+
+    const progress =
+        Math.min(percentage, 100);
+
+
+    budgetProgress.style.width =
+        progress + "%";
+
+
+    const remaining =
+        monthlyBudget - totalExpenses;
+
+
+    if (remaining < 0) {
+
+        budgetText.textContent =
+
+            "⚠️ You exceeded your budget by ₹" +
+
+            Math.abs(remaining)
+                .toLocaleString("en-IN");
+
+    }
+
+    else {
+
+        budgetText.textContent =
+
+            "₹" +
+
+            remaining.toLocaleString("en-IN") +
+
+            " remaining • " +
+
+            percentage.toFixed(1) +
+
+            "% used";
+
+    }
+
+}
+
+
+// ========================================
+// SAVINGS CALCULATOR
+// ========================================
+
+calculateSavingsButton.addEventListener(
+    "click",
+    function() {
+
+
+        const goal =
+            Number(savingsGoal.value);
+
+
+        const months =
+            Number(savingsMonths.value);
+
+
+        if (goal <= 0 || months <= 0) {
+
+            savingsResult.textContent =
+                "Please enter a valid goal and number of months.";
+
+            return;
+
+        }
+
+
+        const monthlyAmount =
+            Math.ceil(goal / months);
+
+
+        savingsResult.textContent =
+
+            "🌱 You need to save approximately ₹" +
+
+            monthlyAmount.toLocaleString("en-IN") +
+
+            " every month to reach ₹" +
+
+            goal.toLocaleString("en-IN") +
+
+            " in " +
+
+            months +
+
+            " months.";
 
     }
 );
 
 
-// ===============================
-// Spending Chart
-// ===============================
+// ========================================
+// CHART
+// ========================================
 
 function updateChart() {
+
 
     const categoryTotals = {};
 
 
-    transactions.forEach(
-        function (transaction) {
-
-            if (
-                transaction.type ===
-                "expense"
-            ) {
-
-                if (
-                    !categoryTotals[
-                        transaction.category
-                    ]
-                ) {
-
-                    categoryTotals[
-                        transaction.category
-                    ] = 0;
-
-                }
+    transactions.forEach(function(transaction) {
 
 
-                categoryTotals[
-                    transaction.category
-                ] +=
-                    transaction.amount;
+        if (transaction.type !== "expense") {
 
-            }
+            return;
 
         }
-    );
+
+
+        if (!categoryTotals[transaction.category]) {
+
+            categoryTotals[transaction.category] = 0;
+
+        }
+
+
+        categoryTotals[transaction.category] +=
+            Number(transaction.amount);
+
+    });
 
 
     const categories =
-        Object.keys(
-            categoryTotals
-        );
+        Object.keys(categoryTotals);
 
 
     const amounts =
-        Object.values(
-            categoryTotals
-        );
+        Object.values(categoryTotals);
 
 
-    const chartCanvas =
-        document.getElementById(
-            "expenseChart"
-        );
+    const canvas =
+        document.getElementById("expenseChart");
 
 
-    if (!chartCanvas) {
+    if (!canvas) {
 
         return;
 
@@ -601,553 +636,49 @@ function updateChart() {
 
 
     expenseChart =
-        new Chart(
-            chartCanvas,
-            {
+        new Chart(canvas, {
 
-                type: "doughnut",
+            type: "doughnut",
 
-                data: {
+            data: {
 
-                    labels:
-                        categories,
+                labels: categories,
 
-                    datasets: [
+                datasets: [
 
-                        {
+                    {
 
-                            label:
-                                "Expenses",
+                        data: amounts
 
-                            data:
-                                amounts
+                    }
 
-                        }
+                ]
 
-                    ]
+            },
 
-                },
+            options: {
 
-                options: {
+                responsive: true,
 
-                    responsive: true,
+                plugins: {
 
-                    plugins: {
+                    legend: {
 
-                        legend: {
-
-                            position:
-                                "bottom"
-
-                        }
+                        position: "bottom"
 
                     }
 
                 }
 
             }
-        );
+
+        });
 
 }
 
 
-// ===============================
-// Monthly Budget
-// ===============================
-
-function updateBudget() {
-
-    budgetDisplay.textContent =
-        "₹" +
-        monthlyBudget.toLocaleString(
-            "en-IN"
-        );
-
-
-    if (monthlyBudget <= 0) {
-
-        budgetSpent.textContent =
-            "₹0";
-
-
-        budgetRemaining.textContent =
-            "₹0";
-
-
-        budgetProgress.style.width =
-            "0%";
-
-
-        budgetPercentage.textContent =
-            "0% used";
-
-
-        budgetMessage.textContent =
-            "Set a monthly budget to start tracking your expenses.";
-
-
-        return;
-
-    }
-
-
-    const today =
-        new Date();
-
-
-    const currentMonth =
-        today.getMonth();
-
-
-    const currentYear =
-        today.getFullYear();
-
-
-    let currentMonthExpense = 0;
-
-
-    transactions.forEach(
-        function (transaction) {
-
-            if (
-                transaction.type ===
-                    "expense"
-                &&
-                transaction.date
-            ) {
-
-                const transactionDate =
-                    new Date(
-                        transaction.date +
-                        "T00:00:00"
-                    );
-
-
-                if (
-
-                    transactionDate.getMonth() ===
-                        currentMonth
-
-                    &&
-
-                    transactionDate.getFullYear() ===
-                        currentYear
-
-                ) {
-
-                    currentMonthExpense +=
-                        transaction.amount;
-
-                }
-
-            }
-
-        }
-    );
-
-
-    const remaining =
-        monthlyBudget -
-        currentMonthExpense;
-
-
-    const percentage =
-        (
-            currentMonthExpense /
-            monthlyBudget
-        ) * 100;
-
-
-    const progressWidth =
-        Math.min(
-            percentage,
-            100
-        );
-
-
-    budgetSpent.textContent =
-        "₹" +
-        currentMonthExpense.toLocaleString(
-            "en-IN"
-        );
-
-
-    budgetRemaining.textContent =
-        "₹" +
-        Math.max(
-            remaining,
-            0
-        ).toLocaleString(
-            "en-IN"
-        );
-
-
-    budgetProgress.style.width =
-        progressWidth + "%";
-
-
-    budgetPercentage.textContent =
-        percentage.toFixed(1) +
-        "% used";
-
-
-    if (percentage >= 100) {
-
-        budgetMessage.textContent =
-            "⚠️ You have reached your monthly budget.";
-
-    }
-
-    else if (percentage >= 80) {
-
-        budgetMessage.textContent =
-            "⚠️ You're getting close to your monthly budget.";
-
-    }
-
-    else {
-
-        budgetMessage.textContent =
-            "✅ You're within your monthly budget.";
-
-    }
-
-}
-
-
-// ===============================
-// Monthly Spending Summary
-// ===============================
-
-function updateMonthlySummary() {
-
-    const today =
-        new Date();
-
-
-    const currentMonth =
-        today.getMonth();
-
-
-    const currentYear =
-        today.getFullYear();
-
-
-    let income = 0;
-
-    let expenses = 0;
-
-
-    const categoryTotals = {};
-
-
-    transactions.forEach(
-        function (transaction) {
-
-            if (!transaction.date) {
-                return;
-            }
-
-
-            const transactionDate =
-                new Date(
-                    transaction.date +
-                    "T00:00:00"
-                );
-
-
-            const isCurrentMonth =
-
-                transactionDate.getMonth() ===
-                    currentMonth
-
-                &&
-
-                transactionDate.getFullYear() ===
-                    currentYear;
-
-
-            if (!isCurrentMonth) {
-                return;
-            }
-
-
-            if (
-                transaction.type ===
-                "income"
-            ) {
-
-                income +=
-                    transaction.amount;
-
-            }
-
-
-            else if (
-                transaction.type ===
-                "expense"
-            ) {
-
-                expenses +=
-                    transaction.amount;
-
-
-                if (
-                    !categoryTotals[
-                        transaction.category
-                    ]
-                ) {
-
-                    categoryTotals[
-                        transaction.category
-                    ] = 0;
-
-                }
-
-
-                categoryTotals[
-                    transaction.category
-                ] +=
-                    transaction.amount;
-
-            }
-
-        }
-    );
-
-
-    const savings =
-        income - expenses;
-
-
-    monthlyIncome.textContent =
-        "₹" +
-        income.toLocaleString(
-            "en-IN"
-        );
-
-
-    monthlyExpense.textContent =
-        "₹" +
-        expenses.toLocaleString(
-            "en-IN"
-        );
-
-
-    monthlySavings.textContent =
-        "₹" +
-        savings.toLocaleString(
-            "en-IN"
-        );
-
-
-    // Find highest spending category
-
-    const categories =
-        Object.keys(
-            categoryTotals
-        );
-
-
-    if (categories.length === 0) {
-
-        topCategory.textContent =
-            "None";
-
-    }
-
-    else {
-
-        let highestCategory =
-            categories[0];
-
-
-        categories.forEach(
-            function (category) {
-
-                if (
-                    categoryTotals[category] >
-                    categoryTotals[highestCategory]
-                ) {
-
-                    highestCategory =
-                        category;
-
-                }
-
-            }
-        );
-
-
-        topCategory.textContent =
-            highestCategory;
-
-    }
-
-
-    // Monthly insight
-
-    if (
-        income === 0 &&
-        expenses === 0
-    ) {
-
-        monthlyInsight.textContent =
-            "💡 Add some transactions to see your monthly spending insight.";
-
-    }
-
-    else if (
-        savings > 0
-    ) {
-
-        monthlyInsight.textContent =
-            "💡 You currently have more income than expenses this month.";
-
-    }
-
-    else if (
-        savings === 0
-    ) {
-
-        monthlyInsight.textContent =
-            "💡 Your income and expenses are currently equal this month.";
-
-    }
-
-    else {
-
-        monthlyInsight.textContent =
-            "💡 Your expenses are currently higher than your income this month.";
-
-    }
-
-}
-
-
-// ===============================
-// Delete Transaction
-// ===============================
-
-function deleteTransaction(id) {
-
-    transactions =
-        transactions.filter(
-            function (transaction) {
-
-                return (
-                    transaction.id !== id
-                );
-
-            }
-        );
-
-
-    saveTransactions();
-
-    updateWebsite();
-
-}
-
-
-// ===============================
-// Save Transactions
-// ===============================
-
-function saveTransactions() {
-
-    localStorage.setItem(
-        "transactions",
-        JSON.stringify(
-            transactions
-        )
-    );
-
-}
-
-
-// ===============================
-// Savings Calculator
-// ===============================
-
-const calculateSavingsButton =
-    document.getElementById(
-        "calculateSavings"
-    );
-
-
-calculateSavingsButton.addEventListener(
-    "click",
-    function () {
-
-
-        const goal =
-            Number(
-                document.getElementById(
-                    "savingsGoal"
-                ).value
-            );
-
-
-        const months =
-            Number(
-                document.getElementById(
-                    "savingsMonths"
-                ).value
-            );
-
-
-        const result =
-            document.getElementById(
-                "savingsResult"
-            );
-
-
-        if (
-            goal <= 0 ||
-            months <= 0
-        ) {
-
-            result.textContent =
-                "Please enter a valid savings goal.";
-
-            return;
-
-        }
-
-
-        const monthlySavingsAmount =
-            Math.ceil(
-                goal / months
-            );
-
-
-        result.textContent =
-
-            "To reach ₹" +
-
-            goal.toLocaleString(
-                "en-IN"
-            ) +
-
-            " in " +
-
-            months +
-
-            " months, save approximately ₹" +
-
-            monthlySavingsAmount.toLocaleString(
-                "en-IN"
-            ) +
-
-            " per month.";
-
-    }
-);
-
-
-// ===============================
-// Start Website
-// ===============================
-
-updateWebsite();
+// ========================================
+// START
+// ========================================
+
+updateDashboard();
