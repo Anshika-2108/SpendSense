@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>SpendSense - Dashboard</title>
+
+    <link
+        rel="stylesheet"
+        href="style.css"
+    >
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+</head>
+
+
+<body>
+
+<header>
+
+    <div class="container header-content">
+
+        <div>
+            <h1>SpendSense 💰</h1>
+
+            <p>Your simple personal finance tracker</p>
+        </div>
+
+        <button
+            class="home-button"
+            onclick="window.location.href='index.html'"
+        >
+            🏠 Home
+        </button>
+
+    </div>
+
+</header>
+
+
+<main class="container">
+
+
+    <!-- SUMMARY CARDS -->
+
+    <section class="summary-grid">
+
+
+        <div class="summary-card balance-card">
+
+            <div class="card-icon">
+                💰
+            </div>
+
+            <h3>Balance</h3>
+
+            <h2 id="balance">
+                ₹0
+            </h2>
+
+        </div>
+
+
+        <div class="summary-card income-card">
+
+            <div class="card-icon">
+                📈
+            </div>
+
+            <h3>Income</h3>
+
+            <h2 id="income">
+                ₹0
+            </h2>
+
+        </div>
+
+
+        <div class="summary-card expense-card">
+
+            <div class="card-icon">
+                💸
+            </div>
+
+            <h3>Expenses</h3>
+
+            <h2 id="expenses">
+                ₹0
+            </h2>
+
+        </div>
+
+
+    </section>
+
+
+    <!-- ADD TRANSACTION -->
+
+    <section class="dashboard-card">
+
+        <h2>
+            ➕ Add Transaction
+        </h2>
+
+        <form id="transactionForm">
+
+
+            <div class="form-group">
+
+                <label>
+                    Description
+                </label>
+
+                <input
+                    type="text"
+                    id="description"
+                    placeholder="Example: Lunch"
+                    required
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>
+                    Amount
+                </label>
+
+                <input
+                    type="number"
+                    id="amount"
+                    placeholder="₹ Amount"
+                    min="1"
+                    required
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>
+                    Type
+                </label>
+
+                <select id="type">
+
+                    <option value="income">
+                        Income
+                    </option>
+
+                    <option value="expense">
+                        Expense
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>
+                    Category
+                </label>
+
+                <select id="category">
+
+                    <option value="Food">
+                        🍔 Food
+                    </option>
+
+                    <option value="Travel">
+                        🚌 Travel
+                    </option>
+
+                    <option value="Shopping">
+                        🛍️ Shopping
+                    </option>
+
+                    <option value="Education">
+                        📚 Education
+                    </option>
+
+                    <option value="Entertainment">
+                        🎬 Entertainment
+                    </option>
+
+                    <option value="Bills">
+                        🧾 Bills
+                    </option>
+
+                    <option value="Other">
+                        📦 Other
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <button
+                type="submit"
+                class="primary-button"
+            >
+                Add Transaction ✨
+            </button>
+
+
+        </form>
+
+    </section>
+
+
+    <!-- TRANSACTIONS -->
+
+    <section class="dashboard-card">
+
+        <div class="section-heading">
+
+            <h2>
+                🧾 Recent Transactions
+            </h2>
+
+            <input
+                type="text"
+                id="search"
+                placeholder="🔍 Search..."
+            >
+
+        </div>
+
+
+        <div id="transactionList">
+
+            <p class="empty-message">
+                No transactions yet.
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <!-- BUDGET -->
+
+    <section class="dashboard-card budget-section">
+
+        <h2>
+            🎯 Monthly Budget
+        </h2>
+
+
+        <div class="budget-input">
+
+            <input
+                type="number"
+                id="budgetInput"
+                placeholder="Enter monthly budget"
+                min="0"
+            >
+
+            <button
+                id="saveBudget"
+                class="secondary-button"
+            >
+                Save Budget
+            </button>
+
+        </div>
+
+
+        <div class="progress-container">
+
+            <div
+                id="budgetProgress"
+                class="progress-bar"
+            >
+            </div>
+
+        </div>
+
+
+        <p id="budgetText">
+            Set a budget to start tracking.
+        </p>
+
+    </section>
+
+
+    <!-- AT A GLANCE -->
+
+    <section class="dashboard-card">
+
+        <h2>
+            👀 At a Glance
+        </h2>
+
+
+        <div class="glance-grid">
+
+
+            <div class="glance-box">
+
+                <span>
+                    💵
+                </span>
+
+                <p>
+                    Total Income
+                </p>
+
+                <strong id="glanceIncome">
+                    ₹0
+                </strong>
+
+            </div>
+
+
+            <div class="glance-box">
+
+                <span>
+                    💸
+                </span>
+
+                <p>
+                    Total Spending
+                </p>
+
+                <strong id="glanceExpense">
+                    ₹0
+                </strong>
+
+            </div>
+
+
+            <div class="glance-box">
+
+                <span>
+                    🏦
+                </span>
+
+                <p>
+                    Available Balance
+                </p>
+
+                <strong id="glanceBalance">
+                    ₹0
+                </strong>
+
+            </div>
+
+
+        </div>
+
+    </section>
+
+
+    <!-- SAVINGS CALCULATOR -->
+
+    <section class="dashboard-card savings-card">
+
+        <h2>
+            🌱 Savings Goal Calculator
+        </h2>
+
+        <p>
+            Plan how much you need to save every month.
+        </p>
+
+
+        <div class="calculator-grid">
+
+
+            <div class="form-group">
+
+                <label>
+                    Savings Goal
+                </label>
+
+                <input
+                    type="number"
+                    id="savingsGoal"
+                    placeholder="₹ 10,000"
+                    min="1"
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>
+                    Months
+                </label>
+
+                <input
+                    type="number"
+                    id="savingsMonths"
+                    placeholder="6"
+                    min="1"
+                >
+
+            </div>
+
+
+        </div>
+
+
+        <button
+            id="calculateSavings"
+            class="primary-button"
+        >
+            Calculate 💫
+        </button>
+
+
+        <div
+            id="savingsResult"
+            class="savings-result"
+        >
+        </div>
+
+    </section>
+
+
+    <!-- CHART -->
+
+    <section class="dashboard-card">
+
+        <h2>
+            📊 Spending by Category
+        </h2>
+
+        <div class="chart-container">
+
+            <canvas id="expenseChart"></canvas>
+
+        </div>
+
+    </section>
+
+
+</main>
+
+
+<footer>
+
+    <p>
+        SpendSense 💜 — Take control of your money, one step at a time.
+    </p>
+
+</footer>
+
+
+<script src="script.js"></script>
+
+</body>
+
+</html>
