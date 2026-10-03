@@ -10,608 +10,636 @@
         content="width=device-width, initial-scale=1.0"
     >
 
-    <title>SpendSense - Personal Finance Tracker</title>
+    <title>SpendSense - Personal Finance</title>
 
-    <link
-        rel="stylesheet"
-        href="style.css"
-    >
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+
+        body {
+
+            margin: 0;
+
+            min-height: 100vh;
+
+            font-family: Arial, sans-serif;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #ffd6e8,
+                    #d9d2ff,
+                    #c9f4ff,
+                    #fff0b8
+                );
+
+            display: flex;
+
+            justify-content: center;
+
+            align-items: center;
+
+            padding: 30px;
+
+            overflow-x: hidden;
+
+        }
+
+
+        /* Decorative circles */
+
+        .circle {
+
+            position: fixed;
+
+            border-radius: 50%;
+
+            z-index: 0;
+
+            opacity: 0.55;
+
+        }
+
+
+        .circle-one {
+
+            width: 180px;
+
+            height: 180px;
+
+            background: #ffb6d9;
+
+            top: -50px;
+
+            left: -50px;
+
+        }
+
+
+        .circle-two {
+
+            width: 230px;
+
+            height: 230px;
+
+            background: #b9a7ff;
+
+            right: -70px;
+
+            bottom: -70px;
+
+        }
+
+
+        .circle-three {
+
+            width: 120px;
+
+            height: 120px;
+
+            background: #ffe28a;
+
+            right: 12%;
+
+            top: 8%;
+
+        }
+
+
+        .intro-container {
+
+            position: relative;
+
+            z-index: 1;
+
+            width: 100%;
+
+            max-width: 950px;
+
+            background: rgba(255, 255, 255, 0.88);
+
+            border-radius: 35px;
+
+            padding: 55px 45px;
+
+            text-align: center;
+
+            box-shadow:
+                0 25px 70px rgba(72, 48, 110, 0.18);
+
+            backdrop-filter: blur(10px);
+
+        }
+
+
+        .logo {
+
+            width: 90px;
+
+            height: 90px;
+
+            margin: 0 auto 15px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #ffd166,
+                    #ff9f68
+                );
+
+            border-radius: 28px;
+
+            font-size: 50px;
+
+            box-shadow:
+                0 10px 25px rgba(255, 159, 104, 0.3);
+
+        }
+
+
+        h1 {
+
+            margin: 0;
+
+            font-size: 52px;
+
+            background:
+                linear-gradient(
+                    90deg,
+                    #7048c8,
+                    #d34f9c,
+                    #ef8c4f
+                );
+
+            -webkit-background-clip: text;
+
+            -webkit-text-fill-color: transparent;
+
+        }
+
+
+        .tagline {
+
+            font-size: 21px;
+
+            color: #777;
+
+            margin-top: 10px;
+
+            margin-bottom: 35px;
+
+        }
+
+
+        .quote-box {
+
+            max-width: 700px;
+
+            margin: 0 auto 30px;
+
+            padding: 28px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #f4e7ff,
+                    #ffe7f2,
+                    #fff5cf
+                );
+
+            border-radius: 25px;
+
+            border: 2px solid #ead8ff;
+
+            box-shadow:
+                0 10px 25px rgba(120, 80, 160, 0.08);
+
+        }
+
+
+        .quote {
+
+            font-size: 26px;
+
+            line-height: 1.5;
+
+            color: #543b78;
+
+            font-weight: bold;
+
+            margin: 0;
+
+        }
+
+
+        .quote-small {
+
+            margin-top: 12px;
+
+            color: #8a7899;
+
+            font-size: 14px;
+
+        }
+
+
+        .description {
+
+            max-width: 650px;
+
+            margin: 0 auto 35px;
+
+            color: #666;
+
+            font-size: 17px;
+
+            line-height: 1.7;
+
+        }
+
+
+        /* Feature cards */
+
+        .features {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(3, 1fr);
+
+            gap: 18px;
+
+            max-width: 780px;
+
+            margin: 0 auto 38px;
+
+        }
+
+
+        .feature {
+
+            padding: 25px 15px;
+
+            border-radius: 22px;
+
+            transition: 0.25s;
+
+        }
+
+
+        .feature:hover {
+
+            transform: translateY(-6px);
+
+        }
+
+
+        .feature:nth-child(1) {
+
+            background: #ffe3ee;
+
+        }
+
+
+        .feature:nth-child(2) {
+
+            background: #e6ddff;
+
+        }
+
+
+        .feature:nth-child(3) {
+
+            background: #fff1bd;
+
+        }
+
+
+        .feature-icon {
+
+            font-size: 38px;
+
+            margin-bottom: 10px;
+
+        }
+
+
+        .feature h3 {
+
+            margin: 5px 0 8px;
+
+            color: #594276;
+
+            font-size: 17px;
+
+        }
+
+
+        .feature p {
+
+            margin: 0;
+
+            color: #777;
+
+            font-size: 13px;
+
+            line-height: 1.5;
+
+        }
+
+
+        /* Button */
+
+        .get-started {
+
+            border: none;
+
+            padding: 17px 48px;
+
+            border-radius: 18px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #7956c7,
+                    #d05aa4,
+                    #ed8c65
+                );
+
+            color: white;
+
+            font-size: 19px;
+
+            font-weight: bold;
+
+            cursor: pointer;
+
+            box-shadow:
+                0 10px 25px rgba(125, 83, 180, 0.3);
+
+            transition: 0.25s;
+
+        }
+
+
+        .get-started:hover {
+
+            transform: translateY(-4px) scale(1.03);
+
+            box-shadow:
+                0 15px 30px rgba(125, 83, 180, 0.35);
+
+        }
+
+
+        .footer-text {
+
+            margin-top: 28px;
+
+            color: #999;
+
+            font-size: 13px;
+
+        }
+        /* Smooth entrance animation */
+
+.intro-container {
+    animation: introAppear 0.8s ease-out;
+}
+
+.logo {
+    animation: logoPop 0.9s ease-out;
+}
+
+@keyframes introAppear {
+
+    from {
+        opacity: 0;
+        transform: translateY(25px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+}
+
+@keyframes logoPop {
+
+    0% {
+        opacity: 0;
+        transform: scale(0.6) rotate(-10deg);
+    }
+
+    70% {
+        transform: scale(1.08) rotate(3deg);
+    }
+
+    100% {
+        opacity: 1;
+        transform: scale(1) rotate(0);
+    }
+
+}
+
+
+        @media (max-width: 650px) {
+
+            body {
+
+                padding: 15px;
+
+            }
+
+
+            .intro-container {
+
+                padding: 40px 20px;
+
+                border-radius: 28px;
+
+            }
+
+
+            h1 {
+
+                font-size: 40px;
+
+            }
+
+
+            .tagline {
+
+                font-size: 18px;
+
+            }
+
+
+            .quote {
+
+                font-size: 21px;
+
+            }
+
+
+            .features {
+
+                grid-template-columns: 1fr;
+
+            }
+
+        }
+
+    </style>
 
 </head>
 
 
 <body>
 
-   <!-- Header -->
 
-<header>
+    <!-- Decorative background -->
 
-    <div class="container">
+    <div class="circle circle-one"></div>
 
-        <h1>SpendSense 💰</h1>
+    <div class="circle circle-two"></div>
 
-        <p>
-            Your simple personal finance tracker
+    <div class="circle circle-three"></div>
+
+
+    <div class="intro-container">
+
+
+        <div class="logo">
+            💰
+        </div>
+
+
+        <h1>
+            SpendSense
+        </h1>
+
+
+        <p class="tagline">
+            Your money. Your goals. Your way. ✨
         </p>
 
-        <button onclick="window.location.href='login.html'" class="login-button">
-            Login 🔐
+
+        <div class="quote-box">
+
+            <p class="quote">
+                “Small savings today can create
+                big possibilities tomorrow.”
+            </p>
+
+            <p class="quote-small">
+                Start small. Save consistently.
+                Build the future you want. 🌱
+            </p>
+
+        </div>
+
+
+        <p class="description">
+
+            SpendSense makes managing your money
+            simple and visual. Track your spending,
+            plan your budget and work towards your
+            savings goals — all in one place.
+
+        </p>
+
+
+        <div class="features">
+
+
+            <div class="feature">
+
+                <div class="feature-icon">
+                    💸
+                </div>
+
+                <h3>
+                    Track Spending
+                </h3>
+
+                <p>
+                    Keep track of your income
+                    and everyday expenses.
+                </p>
+
+            </div>
+
+
+            <div class="feature">
+
+                <div class="feature-icon">
+                    🎯
+                </div>
+
+                <h3>
+                    Set Goals
+                </h3>
+
+                <p>
+                    Turn your savings goals
+                    into achievable plans.
+                </p>
+
+            </div>
+
+
+            <div class="feature">
+
+                <div class="feature-icon">
+                    📊
+                </div>
+
+                <h3>
+                    Understand Your Money
+                </h3>
+
+                <p>
+                    Discover your spending patterns
+                    through simple insights.
+                </p>
+
+            </div>
+
+
+        </div>
+
+
+        <button
+            class="get-started"
+            onclick="window.location.href='dashboard.html'"
+        >
+
+            Get Started →
+            
         </button>
 
+
+        <p class="footer-text">
+
+            Take control of your money,
+            one decision at a time. 💜
+
+        </p>
+
+
     </div>
-
-</header>
-
-    <!-- Main Content -->
-
-    <main class="container">
-
-
-        <!-- Welcome Section -->
-
-        <section class="welcome">
-
-            <h2>
-                Welcome to SpendSense 👋
-            </h2>
-
-            <p>
-                Track your income, expenses, budget and savings
-                all in one place.
-            </p>
-
-        </section>
-
-
-
-        <!-- Summary Cards -->
-
-        <section class="summary-cards">
-
-
-            <div class="summary-card">
-
-                <h3>Balance</h3>
-
-                <p id="balance">
-                    ₹0
-                </p>
-
-            </div>
-
-
-            <div class="summary-card">
-
-                <h3>Income</h3>
-
-                <p id="income">
-                    ₹0
-                </p>
-
-            </div>
-
-
-            <div class="summary-card">
-
-                <h3>Expenses</h3>
-
-                <p id="expense">
-                    ₹0
-                </p>
-
-            </div>
-
-
-        </section>
-
-
-
-        <!-- Add Transaction -->
-
-        <section class="card">
-
-            <h2>
-                Add Transaction
-            </h2>
-
-
-            <form id="transactionForm">
-
-
-                <label for="description">
-                    Description
-                </label>
-
-                <input
-                    type="text"
-                    id="description"
-                    placeholder="Example: Lunch"
-                    required
-                >
-
-
-                <label for="amount">
-                    Amount (₹)
-                </label>
-
-                <input
-                    type="number"
-                    id="amount"
-                    placeholder="Example: 500"
-                    min="1"
-                    required
-                >
-
-
-                <label for="type">
-                    Type
-                </label>
-
-                <select id="type">
-
-                    <option value="expense">
-                        Expense
-                    </option>
-
-                    <option value="income">
-                        Income
-                    </option>
-
-                </select>
-
-
-                <label for="category">
-                    Category
-                </label>
-
-                <select id="category">
-
-                    <option value="Food">
-                        Food
-                    </option>
-
-                    <option value="Travel">
-                        Travel
-                    </option>
-
-                    <option value="Shopping">
-                        Shopping
-                    </option>
-
-                    <option value="Education">
-                        Education
-                    </option>
-
-                    <option value="Entertainment">
-                        Entertainment
-                    </option>
-
-                    <option value="Bills">
-                        Bills
-                    </option>
-
-                    <option value="Health">
-                        Health
-                    </option>
-
-                    <option value="Other">
-                        Other
-                    </option>
-
-                </select>
-
-
-                <label for="date">
-                    Date
-                </label>
-
-                <input
-                    type="date"
-                    id="date"
-                    required
-                >
-
-
-                <button type="submit">
-                    Add Transaction
-                </button>
-
-
-            </form>
-
-        </section>
-
-
-
-        <!-- Recent Transactions -->
-
-        <section class="card">
-
-            <h2>
-                Recent Transactions
-            </h2>
-
-
-            <!-- Search & Filter -->
-
-            <div class="transaction-controls">
-
-
-                <input
-                    type="text"
-                    id="searchInput"
-                    placeholder="🔍 Search transactions..."
-                >
-
-
-                <select id="filterType">
-
-                    <option value="all">
-                        All Transactions
-                    </option>
-
-                    <option value="income">
-                        Income
-                    </option>
-
-                    <option value="expense">
-                        Expenses
-                    </option>
-
-                </select>
-
-
-            </div>
-
-
-            <!-- Transaction List -->
-
-            <div id="transactionList">
-
-                <p class="empty-message">
-                    No transactions yet.
-                </p>
-
-            </div>
-
-
-        </section>
-
-
-
-        <!-- Monthly Budget -->
-
-        <section class="card budget-card">
-
-            <h2>
-                Monthly Budget 💰
-            </h2>
-
-
-            <p>
-                Set a monthly spending limit and
-                track your progress.
-            </p>
-
-
-            <label for="budgetAmount">
-                Monthly Budget (₹)
-            </label>
-
-
-            <input
-                type="number"
-                id="budgetAmount"
-                placeholder="Example: 10000"
-                min="1"
-            >
-
-
-            <button
-                type="button"
-                id="saveBudgetButton"
-            >
-                Save Budget
-            </button>
-
-
-            <div class="budget-summary">
-
-
-                <div>
-
-                    <span>
-                        Budget
-                    </span>
-
-                    <strong id="budgetDisplay">
-                        ₹0
-                    </strong>
-
-                </div>
-
-
-                <div>
-
-                    <span>
-                        Spent
-                    </span>
-
-                    <strong id="budgetSpent">
-                        ₹0
-                    </strong>
-
-                </div>
-
-
-                <div>
-
-                    <span>
-                        Remaining
-                    </span>
-
-                    <strong id="budgetRemaining">
-                        ₹0
-                    </strong>
-
-                </div>
-
-
-            </div>
-
-
-            <div class="budget-progress-container">
-
-                <div
-                    id="budgetProgress"
-                    class="budget-progress"
-                ></div>
-
-            </div>
-
-
-            <p id="budgetPercentage">
-                0% used
-            </p>
-
-
-            <p id="budgetMessage">
-                Set a monthly budget to start
-                tracking your expenses.
-            </p>
-
-
-        </section>
-
-
-
-        <!-- Monthly Spending Summary -->
-
-        <section class="card monthly-summary-card">
-
-            <h2>
-                This Month at a Glance 📅
-            </h2>
-
-            <p>
-                Here's how your money is looking this month.
-            </p>
-
-
-            <div class="monthly-summary-grid">
-
-
-                <div class="monthly-summary-item">
-
-                    <span>
-                        💰 Income
-                    </span>
-
-                    <strong id="monthlyIncome">
-                        ₹0
-                    </strong>
-
-                </div>
-
-
-                <div class="monthly-summary-item">
-
-                    <span>
-                        💸 Expenses
-                    </span>
-
-                    <strong id="monthlyExpense">
-                        ₹0
-                    </strong>
-
-                </div>
-
-
-                <div class="monthly-summary-item">
-
-                    <span>
-                        🏦 Savings
-                    </span>
-
-                    <strong id="monthlySavings">
-                        ₹0
-                    </strong>
-
-                </div>
-
-
-                <div class="monthly-summary-item">
-
-                    <span>
-                        🛍️ Top Category
-                    </span>
-
-                    <strong id="topCategory">
-                        None
-                    </strong>
-
-                </div>
-
-
-            </div>
-
-
-            <div
-                class="monthly-insight"
-                id="monthlyInsight"
-            >
-
-                Add some transactions to see
-                your monthly insight.
-
-            </div>
-
-
-        </section>
-
-
-
-        <!-- Savings Goal Calculator -->
-
-        <section class="card savings-card">
-
-
-            <h2>
-                What If I Save? 💡
-            </h2>
-
-
-            <p class="savings-description">
-
-                Set a savings goal and find out how much
-                you need to save each month.
-
-            </p>
-
-
-            <label for="savingsGoal">
-
-                Savings Goal (₹)
-
-            </label>
-
-
-            <input
-                type="number"
-                id="savingsGoal"
-                min="1"
-                placeholder="Example: 20000"
-            >
-
-
-            <label for="savingsMonths">
-
-                Time to Reach Your Goal
-
-            </label>
-
-
-            <select id="savingsMonths">
-
-
-                <option value="3">
-
-                    3 months
-
-                </option>
-
-
-                <option
-                    value="6"
-                    selected
-                >
-
-                    6 months
-
-                </option>
-
-
-                <option value="9">
-
-                    9 months
-
-                </option>
-
-
-                <option value="12">
-
-                    12 months
-
-                </option>
-
-
-                <option value="24">
-
-                    24 months
-
-                </option>
-
-
-            </select>
-
-
-            <button
-                type="button"
-                id="calculateSavings"
-            >
-
-                Calculate My Savings
-
-            </button>
-
-
-            <div
-                class="savings-result"
-                id="savingsResult"
-            >
-
-                Your savings plan will appear here.
-
-            </div>
-
-
-        </section>
-
-
-
-        <!-- Spending Chart -->
-
-        <section class="card">
-
-            <h2>
-                Spending by Category 📊
-            </h2>
-
-
-            <canvas
-                id="expenseChart"
-            ></canvas>
-
-
-        </section>
-
-
-    </main>
-
-
-
-    <!-- Chart.js -->
-
-    <script
-        src="https://cdn.jsdelivr.net/npm/chart.js"
-    ></script>
-
-
-    <!-- Our JavaScript -->
-
-    <script
-        src="script.js"
-    ></script>
 
 
 </body>
