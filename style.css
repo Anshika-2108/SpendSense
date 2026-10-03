@@ -1,0 +1,592 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+
+body {
+    font-family: Arial, sans-serif;
+    background: linear-gradient(
+        135deg,
+        #fdf4ff,
+        #f5f3ff,
+        #eefcf7
+    );
+    color: #333;
+    min-height: 100vh;
+}
+
+
+/* =========================
+   Main Container
+========================= */
+
+.container {
+    width: 90%;
+    max-width: 1100px;
+    margin: auto;
+}
+
+
+/* =========================
+   Header
+========================= */
+
+header {
+    background: linear-gradient(
+        135deg,
+        #8b5cf6,
+        #ec4899
+    );
+    color: white;
+    padding: 35px 0;
+    box-shadow:
+        0 8px 25px rgba(139, 92, 246, 0.25);
+}
+
+
+header h1 {
+    font-size: 36px;
+    margin-bottom: 8px;
+}
+
+
+header p {
+    font-size: 16px;
+    opacity: 0.9;
+}
+
+
+/* =========================
+   Welcome
+========================= */
+
+.welcome {
+    margin: 30px 0;
+    padding: 30px;
+    background: white;
+    border-radius: 22px;
+    box-shadow:
+        0 8px 25px rgba(0, 0, 0, 0.06);
+}
+
+
+.welcome h2 {
+    margin-bottom: 10px;
+    color: #6d28d9;
+}
+
+
+.welcome p {
+    color: #777;
+    line-height: 1.6;
+}
+
+
+/* =========================
+   Summary Cards
+========================= */
+
+.summary-cards {
+    display: grid;
+    grid-template-columns:
+        repeat(3, 1fr);
+    gap: 20px;
+    margin-bottom: 25px;
+}
+
+
+.summary-card {
+    padding: 25px;
+    border-radius: 22px;
+    background: white;
+    box-shadow:
+        0 8px 25px rgba(0, 0, 0, 0.06);
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+
+.summary-card:hover {
+    transform: translateY(-5px);
+    box-shadow:
+        0 12px 30px rgba(0, 0, 0, 0.1);
+}
+
+
+.summary-card:nth-child(1) {
+    background: #f3e8ff;
+}
+
+
+.summary-card:nth-child(2) {
+    background: #dcfce7;
+}
+
+
+.summary-card:nth-child(3) {
+    background: #ffe4e6;
+}
+
+
+.summary-card h3 {
+    font-size: 15px;
+    margin-bottom: 12px;
+    color: #555;
+}
+
+
+.summary-card p {
+    font-size: 28px;
+    font-weight: bold;
+}
+
+
+/* =========================
+   General Cards
+========================= */
+
+.card {
+    background: white;
+    padding: 30px;
+    margin-bottom: 25px;
+    border-radius: 22px;
+    box-shadow:
+        0 8px 25px rgba(0, 0, 0, 0.06);
+}
+
+
+.card h2 {
+    color: #6d28d9;
+    margin-bottom: 10px;
+}
+
+
+.card > p {
+    color: #777;
+    margin-bottom: 20px;
+    line-height: 1.5;
+}
+
+
+/* =========================
+   Forms
+========================= */
+
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+
+label {
+    font-weight: bold;
+    margin-top: 15px;
+    margin-bottom: 7px;
+    color: #444;
+}
+
+
+input,
+select {
+    width: 100%;
+    padding: 13px 15px;
+    border: 2px solid #eee;
+    border-radius: 12px;
+    font-size: 15px;
+    background: #fafafa;
+    outline: none;
+    transition:
+        border 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+
+input:focus,
+select:focus {
+    border-color: #a78bfa;
+    box-shadow:
+        0 0 0 4px #ede9fe;
+    background: white;
+}
+
+
+/* =========================
+   Buttons
+========================= */
+
+button {
+    border: none;
+    border-radius: 12px;
+    padding: 13px 20px;
+    margin-top: 18px;
+    background: linear-gradient(
+        135deg,
+        #8b5cf6,
+        #ec4899
+    );
+    color: white;
+    font-size: 15px;
+    font-weight: bold;
+    cursor: pointer;
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+
+button:hover {
+    transform: translateY(-2px);
+    box-shadow:
+        0 7px 18px rgba(139, 92, 246, 0.25);
+}
+
+
+button:active {
+    transform: translateY(0);
+}
+
+
+/* =========================
+   Transactions
+========================= */
+
+.transaction-controls {
+    display: flex;
+    gap: 12px;
+    margin: 20px 0;
+}
+
+
+.transaction-controls input {
+    flex: 1;
+}
+
+
+.transaction-controls select {
+    width: 200px;
+}
+
+
+.transaction {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    padding: 18px;
+    margin-bottom: 12px;
+    border-radius: 15px;
+    background: #fafafa;
+    border: 1px solid #eee;
+    transition:
+        transform 0.2s ease;
+}
+
+
+.transaction:hover {
+    transform: translateX(4px);
+}
+
+
+.transaction-info h3 {
+    margin-bottom: 5px;
+}
+
+
+.transaction-info p {
+    color: #888;
+    font-size: 13px;
+}
+
+
+.income {
+    color: #16a34a;
+}
+
+
+.expense {
+    color: #e11d48;
+}
+
+
+.delete-btn {
+    background: #fee2e2;
+    color: #dc2626;
+    padding: 7px 12px;
+    margin-top: 8px;
+    font-size: 12px;
+}
+
+
+.delete-btn:hover {
+    background: #fecaca;
+    box-shadow: none;
+}
+
+
+/* =========================
+   Empty Message
+========================= */
+
+.empty-message {
+    text-align: center;
+    padding: 30px;
+    color: #999;
+}
+
+
+/* =========================
+   Budget
+========================= */
+
+.budget-card {
+    background:
+        linear-gradient(
+            135deg,
+            #f5f3ff,
+            #fff1f2
+        );
+}
+
+
+.budget-summary {
+    display: grid;
+    grid-template-columns:
+        repeat(3, 1fr);
+    gap: 15px;
+    margin-top: 25px;
+}
+
+
+.budget-summary div {
+    background: white;
+    padding: 18px;
+    border-radius: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+
+.budget-summary span {
+    color: #777;
+    font-size: 13px;
+}
+
+
+.budget-summary strong {
+    font-size: 20px;
+    color: #6d28d9;
+}
+
+
+.budget-progress-container {
+    height: 14px;
+    background: #e5e7eb;
+    border-radius: 20px;
+    margin-top: 25px;
+    overflow: hidden;
+}
+
+
+.budget-progress {
+    height: 100%;
+    width: 0%;
+    border-radius: 20px;
+    background: linear-gradient(
+        90deg,
+        #8b5cf6,
+        #ec4899
+    );
+    transition:
+        width 0.5s ease;
+}
+
+
+#budgetPercentage {
+    font-weight: bold;
+    color: #6d28d9;
+    margin-top: 10px;
+}
+
+
+#budgetMessage {
+    font-weight: bold;
+}
+
+
+/* =========================
+   Monthly Summary
+========================= */
+
+.monthly-summary-card {
+    background:
+        linear-gradient(
+            135deg,
+            #ecfeff,
+            #f5f3ff
+        );
+}
+
+
+.monthly-summary-grid {
+    display: grid;
+    grid-template-columns:
+        repeat(4, 1fr);
+    gap: 15px;
+    margin-top: 20px;
+}
+
+
+.monthly-summary-item {
+    background: white;
+    padding: 20px;
+    border-radius: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+
+.monthly-summary-item span {
+    font-size: 14px;
+    color: #777;
+}
+
+
+.monthly-summary-item strong {
+    font-size: 20px;
+    color: #6d28d9;
+}
+
+
+.monthly-insight {
+    margin-top: 20px;
+    padding: 18px;
+    background: #ede9fe;
+    border-radius: 15px;
+    line-height: 1.5;
+    color: #4c1d95;
+    font-weight: bold;
+}
+
+
+/* =========================
+   Savings Calculator
+========================= */
+
+.savings-card {
+    background:
+        linear-gradient(
+            135deg,
+            #fff7ed,
+            #fdf2f8
+        );
+}
+
+
+.savings-description {
+    color: #777;
+    margin-bottom: 20px;
+}
+
+
+.savings-result {
+    margin-top: 20px;
+    padding: 18px;
+    background: #f6f5fb;
+    border-radius: 12px;
+    line-height: 1.6;
+    font-weight: bold;
+    color: #6d28d9;
+}
+
+
+/* =========================
+   Chart
+========================= */
+
+.card canvas {
+    max-height: 400px;
+    margin-top: 20px;
+}
+
+
+/* =========================
+   Mobile
+========================= */
+
+@media (max-width: 800px) {
+
+    .summary-cards {
+        grid-template-columns:
+            1fr;
+    }
+
+
+    .monthly-summary-grid {
+        grid-template-columns:
+            repeat(2, 1fr);
+    }
+
+
+    .budget-summary {
+        grid-template-columns:
+            1fr;
+    }
+
+}
+
+
+@media (max-width: 600px) {
+
+    .container {
+        width: 94%;
+    }
+
+
+    header {
+        padding: 28px 0;
+    }
+
+
+    header h1 {
+        font-size: 30px;
+    }
+
+
+    .card,
+    .welcome {
+        padding: 22px;
+        border-radius: 18px;
+    }
+
+
+    .transaction-controls {
+        flex-direction: column;
+    }
+
+
+    .transaction-controls select {
+        width: 100%;
+    }
+
+
+    .transaction {
+        align-items: flex-start;
+    }
+
+
+    .monthly-summary-grid {
+        grid-template-columns:
+            1fr;
+    }
+
+
+    .summary-card p {
+        font-size: 25px;
+    }
+
+}
